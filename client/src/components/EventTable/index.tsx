@@ -6,7 +6,7 @@ interface Event {
   eventId: number
   title: string
   description: string
-  dateTime: string
+  date_time: string
   location: string
 }
 
@@ -64,8 +64,8 @@ const EventTable: React.FC = () => {
           <TableCell onClick={() => handleSort("description")}>
             Description {renderSortArrow("description")}
           </TableCell>
-          <TableCell onClick={() => handleSort("dateTime")}>
-            Date and Time {renderSortArrow("dateTime")}
+          <TableCell onClick={() => handleSort("date_time")}>
+            Date and Time {renderSortArrow("date_time")}
           </TableCell>
           <TableCell onClick={() => handleSort("location")}>
             Location {renderSortArrow("location")}
@@ -78,7 +78,7 @@ const EventTable: React.FC = () => {
             <TableCell>{event.eventId}</TableCell>
             <TableCell>{event.title}</TableCell>
             <TableCell>{event.description}</TableCell>
-            <TableCell>{event.dateTime}</TableCell>
+            <TableCell>{event.date_time}</TableCell>
             <TableCell>{event.location}</TableCell>
           </TableRow>
         ))}
