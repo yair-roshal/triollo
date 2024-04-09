@@ -14,14 +14,8 @@ app.use(cors(corsOptions))
 
 app.use("/", routes)
 
-let port1 = 5005
+let port = 5005
 
-app.listen(port1, () => {
-  console.log(`Server is running on port ${port1}`)
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`)
 })
-
-// let port = 443
-
-// https.createServer(httpsOptions, app).listen(port, () => {
-//   console.log("https Web server started at port : ", port)
-// })
