@@ -15,14 +15,9 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.17.1",
-    "express-jwt": "^8.4.1",
-    "fs": "^0.0.1-security",
-    "joi": "^17.2.0",
-    "jsonwebtoken": "^9.0.0",
     "mysql2": "^2.1.0",
     "node-jose": "^2.1.1",
     "rootpath": "^0.1.2",
-    "cloudinary": "^1.41.0",
     "sequelize": "^6.3.4"
   },
   "devDependencies": {
