@@ -57,7 +57,11 @@ class EventsService {
 
   // createEvent ================================================
   async createEvent(eventData) {
-    const { title, description, date_time, location } = eventData
+    console.log("eventData.body :>> ", eventData.body)
+    const { title, description, date_time, location } = eventData.body
+    
+    console.log("{ title, description, date_time, location }>> ", { title, description, date_time, location })
+
     const sqlQuery = `
         INSERT INTO events (title, description, date_time, location)
         VALUES (?, ?, ?, ?)
@@ -65,10 +69,10 @@ class EventsService {
 
     try {
       const result = await this.executeQuery(sqlQuery, [
-        title,
-        description,
-        date_time,
-        location,
+        title || null,
+        description || null,
+        date_time || null,
+        location || null,
       ])
       return result
     } catch (error) {
