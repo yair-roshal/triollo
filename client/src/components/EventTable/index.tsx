@@ -25,16 +25,9 @@ const mockEventData: Event[] = [
     dateTime: '2024-04-11T14:00:00',
     location: 'Location 2'
   },
- ];
-
-// const useStyles = makeStyles({
-//   table: {
-//     minWidth: 650,
-//   },
-// });
+];
 
 const EventTable: React.FC = () => {
-  // const classes = useStyles();
   const [sortField, setSortField] = useState<keyof Event | null>(null);
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
 
@@ -45,6 +38,13 @@ const EventTable: React.FC = () => {
       setSortField(field);
       setSortOrder('asc');
     }
+  };
+
+  const renderSortArrow = (field: keyof Event) => {
+    if (sortField === field) {
+      return sortOrder === 'asc' ? <KeyboardArrowUp /> : <KeyboardArrowDown />;
+    }
+    return null;
   };
 
   const sortedData = [...mockEventData].sort((a, b) => {
@@ -61,14 +61,24 @@ const EventTable: React.FC = () => {
   });
 
   return (
-    <Table sx={{minWidth: 650}}>
+    <Table sx={{ minWidth: 650 }}>
       <TableHead>
         <TableRow>
-          <TableCell onClick={() => handleSort('eventId')}>Event ID</TableCell>
-          <TableCell onClick={() => handleSort('title')}>Title</TableCell>
-          <TableCell onClick={() => handleSort('description')}>Description</TableCell>
-          <TableCell onClick={() => handleSort('dateTime')}>Date and Time</TableCell>
-          <TableCell onClick={() => handleSort('location')}>Location</TableCell>
+          <TableCell onClick={() => handleSort('eventId')}>
+            Event ID {renderSortArrow('eventId')}
+          </TableCell>
+          <TableCell onClick={() => handleSort('title')}>
+            Title {renderSortArrow('title')}
+          </TableCell>
+          <TableCell onClick={() => handleSort('description')}>
+            Description {renderSortArrow('description')}
+          </TableCell>
+          <TableCell onClick={() => handleSort('dateTime')}>
+            Date and Time {renderSortArrow('dateTime')}
+          </TableCell>
+          <TableCell onClick={() => handleSort('location')}>
+            Location {renderSortArrow('location')}
+          </TableCell>
         </TableRow>
       </TableHead>
       <TableBody>

@@ -1,13 +1,18 @@
 import React from 'react';
 import { ListUsersProvider } from './context/listUsersContext';
+import EventTable from './components/EventTable';
 import Header from './components/Header';
-import Routes from './routes/routes';
+import Footer from './components/Footer';
+// import Routes from './routes/routes';
 
 const App: React.FC = () => {
   return (
     <ListUsersProvider>
       <Header />
-      <Routes />
+      {/* <Routes /> */}
+      <EventTable/>
+      <Footer />
+
     </ListUsersProvider>
   );
 };
