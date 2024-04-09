@@ -1,25 +1,12 @@
 const mysql = require("mysql2/promise");
 const { sqlConfig } = require("../../constants/sqlConfig");
-const axios = require("axios");
-const https = require("https");
-const { generateDateTime } = require("../helpers/utils");
-const cloudinary = require("cloudinary").v2;
-const { options } = require("../../constants/constants");
-const { isPhotoUrl } = require("../helpers/isPhotoUrl");
 
-cloudinary.config({
-  cloud_name: "dvb3cxb9h",
-  api_key: "983895153435419",
-  api_secret: "Poz4uTvsD0TKuZiXfAIT3Sk_9gc",
-});
-
-class extrasService {
+class EventsService {
   constructor() {
-    this.pool = mysql.createPool(sqlConfig); // Создаем пул соединений
+    this.pool = mysql.createPool(sqlConfig);  
   }
 
-  // Метод для выполнения запросов к базе данных
-  async executeQuery(sqlQuery, values) {
+   async executeQuery(sqlQuery, values) {
     const connection = await this.pool.getConnection();
 
     try {
@@ -29,126 +16,75 @@ class extrasService {
       console.error("Error executing SQL query:", error);
       throw error;
     } finally {
-      connection.release(); // Вернуть соединение в пул после использования
+      connection.release();  
     }
   }
 
-  // getExtras ================================================
-  async getExtras(req, res) {
-    const restaurant_id = req.params.restaurant_id;
-
-    console.log("getExtras_restaurant_id", restaurant_id);
+  // getEvent ================================================
+  async getEvent(eventId) {
     const sqlQuery = `
       SELECT
-        t.id,
-        t.title,
-        t.type_id,
-        t.image,
-        t.restaurant_id
-      FROM extras t
-      WHERE t.restaurant_id = ?
+        id,
+        title,
+        description,
+        date_time,
+        location
+      FROM events
+      WHERE id = ?
     `;
-    return this.executeQuery(sqlQuery, [restaurant_id]);
+    return this.executeQuery(sqlQuery, [eventId]);
   }
 
-  // createExtra ================================================
-
-  async createExtra(req, res) {
-    console.log("req.body :>> ", req.body);
-    const { title, image, restaurant_id, type_id } = req.body;
+  // createEvent ================================================
+  async createEvent(eventData) {
+    const { title, description, date_time, location } = eventData;
     const sqlQuery = `
-        INSERT INTO extras (title,  image, restaurant_id, type_id)
+        INSERT INTO events (title, description, date_time, location)
         VALUES (?, ?, ?, ?)
       `;
 
     try {
-      let values = [title, image, restaurant_id, type_id];
-
-      if (image && isPhotoUrl(image)) {
-        const uploadedResponse = await cloudinary.uploader.upload(
-          image,
-          options
-        );
-        console.log("uploadedResponse", uploadedResponse);
-
-        if (uploadedResponse) {
-          values = [title, uploadedResponse.secure_url, restaurant_id, type_id];
-        }
-      }
-
-      const result = await this.executeQuery(sqlQuery, values);
-
+      const result = await this.executeQuery(sqlQuery, [title, description, date_time, location]);
       return result;
     } catch (error) {
-      console.error("Error creating extra:", error);
+      console.error("Error creating event:", error);
       throw error;
     }
   }
 
-  // updateExtra ================================================
-
-  async updateExtra(req, res) {
-    const { id, title, image, restaurant_id, type_id } = req.body;
-    console.log("updateExtra_req.body", req.body);
-
+  // updateEvent ================================================
+  async updateEvent(eventId, eventData) {
+    const { title, description, date_time, location } = eventData;
     const sqlQuery = `
-      UPDATE extras
-      SET title = ?, image = ?, restaurant_id= ?, type_id = ?
+      UPDATE events
+      SET title = ?, description = ?, date_time = ?, location = ?
       WHERE id = ?
     `;
 
     try {
-      let values = [title, image, restaurant_id, type_id, id];
-
-      if (image && isPhotoUrl(image)) {
-        const uploadedResponse = await cloudinary.uploader.upload(
-          image,
-          options
-        );
-        console.log("uploadedResponse", uploadedResponse);
-
-        if (uploadedResponse) {
-          values = [
-            title,
-            uploadedResponse.secure_url,
-            restaurant_id,
-            type_id,
-            id,
-          ];
-        }
-      }
-
-      const result = await this.executeQuery(sqlQuery, values);
-
+      const result = await this.executeQuery(sqlQuery, [title, description, date_time, location, eventId]);
       return result;
     } catch (error) {
-      console.error("Error updating extra:", error);
+      console.error("Error updating event:", error);
       throw error;
     }
   }
 
-  // deleteExtra ================================================
-
-  async deleteExtra(req, res) {
-    const id = req.params.extra_id;
-
-    console.log("id", id);
-    console.log("req.params", req.params);
-
+  // deleteEvent ================================================
+  async deleteEvent(eventId) {
     const sqlQuery = `
-      DELETE FROM extras
+      DELETE FROM events
       WHERE id = ?
     `;
 
     try {
-      const result = await this.executeQuery(sqlQuery, [id]);
-
+      const result = await this.executeQuery(sqlQuery, [eventId]);
       return result;
     } catch (error) {
-      console.error("Error deleting extra:", error);
+      console.error("Error deleting event:", error);
       throw error;
     }
   }
 }
 
-module.exports = new extrasService();
+module.exports = new EventsService();
