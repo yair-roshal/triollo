@@ -22,5 +22,5 @@
   },
   "include": [
     "src"
-  ]
+, "src/0-save/index.tsx"  ]
 }
