@@ -1,6 +1,5 @@
 require("rootpath")()
 const express = require("express")
-var https = require("https")
 const app = express()
 const bodyParser = require("body-parser")
 const cors = require("cors")

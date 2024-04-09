@@ -1,8 +1,15 @@
 const EventsService = require("../services/events.service.js")
 
 class EventsController {
-  async getEvents(req, res) {
-    const result = await EventsService.getEvents(req, res)
+  async getAllEvents(req, res) {
+    const result = await EventsService.getAllEvents(req, res)
+
+    if (result) return res.status(200).send(result)
+    else return res.status(500).send({ message: "error-getEvents" })
+  }
+  //============================================
+  async getEvent(req, res) {
+    const result = await EventsService.getEvent(req, res)
 
     if (result) return res.status(200).send(result)
     else return res.status(500).send({ message: "error-getEvents" })

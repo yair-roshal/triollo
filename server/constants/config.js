@@ -2,17 +2,17 @@ require("dotenv").config();
 const path = require("path");
 const fs = require("fs");
 
-const httpsOptions = {
-  key: fs.readFileSync(
-    path.join(__dirname, "../server/certificates/burgerim.ru.key"),
-    "utf8"
-  ),
+// const httpsOptions = {
+//   key: fs.readFileSync(
+//     path.join(__dirname, "../server/certificates/burgerim.ru.key"),
+//     "utf8"
+//   ),
 
-  cert: fs.readFileSync(
-    path.join(__dirname, "../server/certificates/burgerim.ru.crt"),
-    "utf8"
-  ),
-};
+//   cert: fs.readFileSync(
+//     path.join(__dirname, "../server/certificates/burgerim.ru.crt"),
+//     "utf8"
+//   ),
+// };
 
 const corsOptions = {
   // origin: function (origin, callback) {
@@ -29,4 +29,5 @@ const corsOptions = {
   allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept"],
 };
 
-module.exports = { httpsOptions, corsOptions };
+module.exports = {  corsOptions };
+// module.exports = { httpsOptions, corsOptions };

@@ -1,7 +1,13 @@
 {
-  "name": "burger-bot-server",
+  "name": "server",
   "version": "7.7.0",
-  "description": "server - Node.js + MySQL API for User Management, Authentication and Registration",
+  "description": "server - Node.js + MySQL API for events Management",
+  "scripts": {
+    "start": "NODE_ENV=prod node server.js",
+    "dev": "NODE_ENV=dev nodemon server.js",
+    "dev_debug": "NODE_ENV=dev DEBUG=*  nodemon server.js",
+    "prod": "NODE_ENV=prod node server.js"
+  },
   "dependencies": {
     "axios": "^1.4.0",
     "bcryptjs": "^2.4.3",
